@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Vizag Schools",
+    "slug": "vizag-schools",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#FFFFFF",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vizagschools.app"
+    },
+    "android": {
+      "package": "com.vizagschools.app"
+    }
+  }
+}
