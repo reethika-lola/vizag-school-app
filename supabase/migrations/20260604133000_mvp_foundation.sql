@@ -44,18 +44,13 @@ create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text,
   avatar_url text,
-  child_grade text,
+  child_age_group text,
   preferred_boards public.school_board[] not null default '{}',
   preferred_localities text[] not null default '{}',
-  budget_min integer check (budget_min is null or budget_min >= 0),
-  budget_max integer check (budget_max is null or budget_max >= 0),
+  budget_preference text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  constraint profiles_budget_range_check check (
-    budget_min is null
-    or budget_max is null
-    or budget_min <= budget_max
-  )
+  
 );
 
 create table if not exists public.schools (
@@ -65,6 +60,8 @@ create table if not exists public.schools (
   tagline text,
   description text,
   board public.school_board not null,
+  medium_of_instruction text,
+  transport_available boolean not null default false,
   locality text not null,
   address text,
   latitude numeric(9, 6),
@@ -142,7 +139,7 @@ create trigger on_auth_user_created
 after insert on auth.users
 for each row execute function private.handle_new_user();
 
-create index if not exists profiles_child_grade_idx on public.profiles (child_grade);
+create index if not exists profiles_child_age_group_idx on public.profiles (child_grade);
 create index if not exists schools_active_idx on public.schools (is_active);
 create index if not exists schools_board_idx on public.schools (board);
 create index if not exists schools_locality_idx on public.schools (locality);
@@ -166,7 +163,6 @@ alter table public.shortlists enable row level security;
 
 grant select, insert, update on table public.profiles to authenticated;
 grant select on table public.schools to anon, authenticated;
-grant insert, update, delete on table public.schools to authenticated;
 grant select, insert, update, delete on table public.shortlists to authenticated;
 
 create policy "Users can read their own profile"
