@@ -1,5 +1,7 @@
 import 'react-native-url-polyfill/auto'
+import 'react-native-get-random-values'
 import { createClient } from '@supabase/supabase-js'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Constants from 'expo-constants'
 
 const supabaseUrl =
@@ -10,7 +12,15 @@ const supabaseAnonKey =
 
 export const supabase = createClient(
   supabaseUrl,
-  supabaseAnonKey
+  supabaseAnonKey,
+  {
+    auth: {
+      storage: AsyncStorage,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
+    },
+  }
 )
 
 export async function getSchools() {
