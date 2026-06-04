@@ -49,7 +49,7 @@ create table if not exists public.profiles (
   preferred_localities text[] not null default '{}',
   budget_preference text,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
   
 );
 
@@ -139,7 +139,7 @@ create trigger on_auth_user_created
 after insert on auth.users
 for each row execute function private.handle_new_user();
 
-create index if not exists profiles_child_age_group_idx on public.profiles (child_grade);
+create index if not exists profiles_child_age_group_idx on public.profiles (child_age_group);
 create index if not exists schools_active_idx on public.schools (is_active);
 create index if not exists schools_board_idx on public.schools (board);
 create index if not exists schools_locality_idx on public.schools (locality);
