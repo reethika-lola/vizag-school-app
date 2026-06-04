@@ -18,6 +18,10 @@
     },
     "android": {
       "package": "com.vizagschools.app"
+    },
+    "extra": {
+      "supabaseUrl": "https://sbjahbbayjoahccrxrhy.supabase.co",
+      "supabaseAnonKey": "sb_publishable__yzJ5rS6D38Et8leXoikaw_cW7_8Z-M"
     }
   }
 }

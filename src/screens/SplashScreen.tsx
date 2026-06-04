@@ -1,3 +1,4 @@
+import { getSchools } from "../lib/supabase";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef } from "react";
@@ -15,14 +16,16 @@ export function SplashScreen({ navigation }: Props) {
   const scale = useRef(new Animated.Value(0.86)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    Animated.parallel([
-      Animated.spring(scale, { toValue: 1, useNativeDriver: true, friction: 6 }),
-      Animated.timing(opacity, { toValue: 1, duration: 700, useNativeDriver: true })
-    ]).start();
-    const timer = setTimeout(() => navigation.replace("Onboarding"), 1500);
-    return () => clearTimeout(timer);
-  }, [navigation, opacity, scale]);
+useEffect(() => {
+  Animated.parallel([
+    Animated.spring(scale, { toValue: 1, useNativeDriver: true, friction: 6 }),
+    Animated.timing(opacity, { toValue: 1, duration: 700, useNativeDriver: true })
+  ]).start();
+
+  const timer = setTimeout(() => navigation.replace("Onboarding"), 1500);
+
+  return () => clearTimeout(timer);
+}, [navigation, opacity, scale]);
 
   return (
     <View style={styles.screen}>

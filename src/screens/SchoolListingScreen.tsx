@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getSchools } from "../lib/supabase";
 import { FlatList, StyleSheet, View } from "react-native";
 
 import { FilterModal } from "../components/FilterModal";
@@ -7,7 +8,6 @@ import { SchoolCard } from "../components/SchoolCard";
 import { ScreenHeader } from "../components/ScreenHeader";
 import { SearchBar } from "../components/SearchBar";
 import { SkeletonSchoolCard } from "../components/SkeletonSchoolCard";
-import { schools } from "../data/schools";
 import { palette } from "../theme/colors";
 import { spacing } from "../theme/spacing";
 import { RootStackParamList } from "../types";
@@ -16,8 +16,24 @@ type Props = NativeStackScreenProps<RootStackParamList, "SchoolListing">;
 
 export function SchoolListingScreen({ navigation, route }: Props) {
   const [filtersVisible, setFiltersVisible] = useState(false);
+  const [schoolsData, setSchoolsData] = useState<any[]>([]);
   const title = route.params?.title ?? "Schools in Vizag";
-  const data = route.params?.board ? schools.filter((school) => school.board === route.params?.board) : schools;
+  useEffect(() => {
+  async function loadSchools() {
+  const data = await getSchools();
+
+  console.log("Schools from database:", data);
+
+  setSchoolsData(data);
+}
+
+  loadSchools();
+}, []);
+  const data = route.params?.board
+  ? schoolsData.filter(
+      (school) => school.board === route.params?.board
+    )
+  : schoolsData;
 
   return (
     <View style={styles.screen}>
